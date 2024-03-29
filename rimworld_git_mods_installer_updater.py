@@ -27,11 +27,7 @@ def mods_list_verifier():
                 print(f"Updating {mods_py_path} file...")
                 mods_list_formater.process_file(mods_txt_path, mods_py_path)
                 print("Done!")
-        else:
-            print(f"\n{mods_py_path} file not found.")
-            print(f"Creating a new one using the {mods_txt_path} file...")
-            mods_list_formater.process_file(mods_txt_path, mods_py_path)
-            print("Done!")
+                exit(0)
 
     else:
         print("\nMods list file not found. Creating new example file...")
@@ -47,6 +43,9 @@ def mods_list_verifier():
         print("\nTip: You can create a file named blacklist.conf and add mod folder names in it.")
         print("Add each mod folder name in a new line.")
         print("Matching mod folder names will be ignored by the updater/installer!")
+        print(f"\nUpdating {mods_py_path} file...")
+        mods_list_formater.process_file(mods_txt_path, mods_py_path)
+        print("Done!")
         print("\nRun this script again to install/update the mods in the list.")
         exit(0)
 
