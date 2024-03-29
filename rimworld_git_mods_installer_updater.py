@@ -150,3 +150,5 @@ if __name__ == "__main__":
         git_update(mod_folder_name, git_url)
 
     input("\nPress Enter to exit...")
+
+# Made with <3 by github.com/BiP213! Enjoy! :D
