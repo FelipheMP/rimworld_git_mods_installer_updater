@@ -30,7 +30,7 @@ def mods_list_verifier():
                 exit(0)
 
     else:
-        print("\nMods list file not found. Creating new example file...")
+        print(f"\n{mods_txt_path} file not found. Creating new example file...")
         with open(mods_txt_path, "w") as file:
             file.write("PerformanceOptimizer https://github.com/Taranchuk/PerformanceOptimizer.git\n")
             file.write("JustPutItOverThere https://github.com/emipa606/JustPutItOverThere.git\n")
@@ -90,6 +90,7 @@ def git_update(mod_folder_name, git_url):
             subprocess.run(["git", "fetch"])
             result = subprocess.run(["git", "pull"], capture_output = True, text = True)
             if "Already up to date." not in result.stdout:
+                os.chdir("..")
                 log_update(mod_folder_name)
             else:
                 print("Already up to date!")
@@ -117,18 +118,20 @@ def git_remove_install(mod_folder_name, git_url):
         git_install(git_url)
 
 def log_update(mod_folder_name):
+    update_log_path = "update_log.txt"
+
     try:
         print(f"Attempting to log update for {mod_folder_name}")
         current_time = time.strftime("%d-%m-%Y %H:%M:%S", time.localtime())
         mod_time = time.strftime("%d-%m-%Y %H:%M:%S", time.localtime(os.path.getmtime(mod_folder_name)))
         
-        if os.path.exists("update_log.txt"):
-            with open("update_log.txt", "a") as log_file:
+        if os.path.exists(update_log_path):
+            with open(update_log_path, "a") as log_file:
                 log_file.write(f"\n{mod_folder_name} was updated on {current_time}\n")
                 log_file.write(f"Last modification time: {mod_time}\n")
                 log_file.write("------------------------------------------------------------------\n")
         else:
-            with open("update_log.txt", "w") as log_file:
+            with open(update_log_path, "w") as log_file:
                 log_file.write("Update History:\n")
                 log_file.write("##################################################################\n")
                 log_file.write(f"\n{mod_folder_name} was updated on {current_time}\n")
