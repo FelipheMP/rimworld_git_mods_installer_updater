@@ -12,17 +12,27 @@ def mods_folder_verifier():
         input("\nPress Enter to exit...")
         exit(0)
 
+def is_file_empty(mods_py_path):
+    return os.stat(mods_py_path).st_size == 0
+
 def mods_list_verifier():
     mods_txt_path = "mods_list.txt"
     mods_py_path = "mods_list.py"
 
     if os.path.exists(mods_txt_path):
-        mods_list_mod_time = os.path.getmtime(mods_txt_path)
+        mods_txt_mod_time = os.path.getmtime(mods_txt_path)
 
         if os.path.exists(mods_py_path):
             mods_py_mod_time = os.path.getmtime(mods_py_path)
 
-            if mods_list_mod_time > mods_py_mod_time:
+            if is_file_empty(mods_py_path):
+                print(f"\n{mods_txt_path} file identified!")
+                print(f"Updating {mods_py_path} file...")
+                mods_list_formater.process_file(mods_txt_path, mods_py_path)
+                print("Done!")
+                exit(0)
+
+            if mods_txt_mod_time > mods_py_mod_time:
                 print(f"\n{mods_txt_path} file modified!")
                 print(f"Updating {mods_py_path} file...")
                 mods_list_formater.process_file(mods_txt_path, mods_py_path)
@@ -37,7 +47,7 @@ def mods_list_verifier():
             file.write("OwlAnimalGear https://github.com/Owlchemist/animal-gear.git\n")
             file.write("WarhammerGor https://github.com/emipa606/WarhammerGor.git\n")
             file.write("MoharFramework https://github.com/goudaQuiche/MoharFramework.git\n")
-        print("Mods list file created!")
+        print(f"{mods_txt_path} file created!")
         print("\nAdd mods by typing its name followed by its git repo url as is shown in the example file!")
         print("To remove it, well, delete its name and url line.")
         print("\nTip: You can create a file named blacklist.conf and add mod folder names in it.")
@@ -94,7 +104,7 @@ def git_update(mod_folder_name, git_url):
                 log_update(mod_folder_name)
             else:
                 print("Already up to date!")
-            os.chdir("..")
+                os.chdir("..")
         else:
             os.chdir("..")
             if not DONT_INSTALL:
@@ -137,6 +147,7 @@ def log_update(mod_folder_name):
                 log_file.write(f"\n{mod_folder_name} was updated on {current_time}\n")
                 log_file.write(f"Last modification time: {mod_time}\n")
                 log_file.write("------------------------------------------------------------------\n")
+        print(f"Update for {mod_folder_name} logged successfully.")
     except Exception as e:
         print(f"Error logging update for {mod_folder_name}: {e}")
 
@@ -153,5 +164,3 @@ if __name__ == "__main__":
         git_update(mod_folder_name, git_url)
 
     input("\nPress Enter to exit...")
-
-# Made with <3 by github.com/BiP213! Enjoy! :D
