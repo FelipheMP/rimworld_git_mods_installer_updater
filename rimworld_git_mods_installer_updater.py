@@ -163,4 +163,7 @@ if __name__ == "__main__":
     for mod_folder_name, git_url in mods_list.mods:
         git_update(mod_folder_name, git_url)
 
-    input("\nPress Enter to exit...")
+    print("\nMade with <3 by github.com/BiP213")
+    input("Press Enter to exit...")
+
+# Made with <3 by github.com/BiP213! Enjoy! :D
