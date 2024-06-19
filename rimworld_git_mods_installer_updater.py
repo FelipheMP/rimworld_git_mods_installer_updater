@@ -16,6 +16,7 @@ def is_file_empty(mods_py_path):
     return os.stat(mods_py_path).st_size == 0
 
 def mods_list_verifier():
+    COMPLETION_MESSAGE = "Done!"
     mods_txt_path = "mods_list.txt"
     mods_py_path = "mods_list.py"
 
@@ -25,18 +26,11 @@ def mods_list_verifier():
         if os.path.exists(mods_py_path):
             mods_py_mod_time = os.path.getmtime(mods_py_path)
 
-            if is_file_empty(mods_py_path):
+            if is_file_empty(mods_py_path) or (mods_txt_mod_time > mods_py_mod_time):
                 print(f"\n{mods_txt_path} file identified!")
                 print(f"Updating {mods_py_path} file...")
                 mods_list_formater.process_file(mods_txt_path, mods_py_path)
-                print("Done!")
-                exit(0)
-
-            if mods_txt_mod_time > mods_py_mod_time:
-                print(f"\n{mods_txt_path} file modified!")
-                print(f"Updating {mods_py_path} file...")
-                mods_list_formater.process_file(mods_txt_path, mods_py_path)
-                print("Done!")
+                print(COMPLETION_MESSAGE)
                 exit(0)
 
     else:
@@ -45,8 +39,6 @@ def mods_list_verifier():
             file.write("PerformanceOptimizer https://github.com/Taranchuk/PerformanceOptimizer.git\n")
             file.write("JustPutItOverThere https://github.com/emipa606/JustPutItOverThere.git\n")
             file.write("OwlAnimalGear https://github.com/Owlchemist/animal-gear.git\n")
-            file.write("WarhammerGor https://github.com/emipa606/WarhammerGor.git\n")
-            file.write("MoharFramework https://github.com/goudaQuiche/MoharFramework.git\n")
         print(f"{mods_txt_path} file created!")
         print("\nAdd mods by typing its name followed by its git repo url as is shown in the example file!")
         print("To remove it, well, delete its name and url line.")
@@ -55,12 +47,12 @@ def mods_list_verifier():
         print("Matching mod folder names will be ignored by the updater/installer!")
         print(f"\nUpdating {mods_py_path} file...")
         mods_list_formater.process_file(mods_txt_path, mods_py_path)
-        print("Done!")
+        print(COMPLETION_MESSAGE)
         print("\nRun this script again to install/update the mods in the list.")
         exit(0)
 
 def check_for_blacklist():
-    if os.path.exists("blacklist.conf"):
+    if os.path.exists(BLACKLIST_CONFIG_FILE):
         return True
     else:
         return False
@@ -72,8 +64,8 @@ def dont_install():
         DONT_INSTALL = True
 
 def blacklist_report():
-    if os.path.exists("blacklist.conf"):
-        with open("blacklist.conf", "r") as file:
+    if os.path.exists(BLACKLIST_CONFIG_FILE):
+        with open(BLACKLIST_CONFIG_FILE, "r") as file:
             print("\nBlacklist file detected! Below mods will be ignored:")
             for line in file:
                 print(line.strip())
@@ -85,7 +77,7 @@ def blacklist_report():
 
 def git_update(mod_folder_name, git_url):
     if check_for_blacklist():
-        with open("blacklist.conf", "r") as file:
+        with open(BLACKLIST_CONFIG_FILE, "r") as file:
             for line in file:
                 if mod_folder_name == line.strip():
                     return
@@ -132,26 +124,34 @@ def log_update(mod_folder_name):
 
     try:
         print(f"Attempting to log update for {mod_folder_name}")
-        current_time = time.strftime("%d-%m-%Y %H:%M:%S", time.localtime())
-        mod_time = time.strftime("%d-%m-%Y %H:%M:%S", time.localtime(os.path.getmtime(mod_folder_name)))
-        
+        current_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+
+        # Fetch the timestamp of the last commit
+        latest_git_commit_timestamp = subprocess.check_output(['git', 'show', '--format=%ci', 'HEAD'], cwd=mod_folder_name, stderr=subprocess.STDOUT, universal_newlines=True)
+        if latest_git_commit_timestamp:
+            latest_commit_date = latest_git_commit_timestamp.split(' ')[0]  # Extract the date part
+            latest_commit_hour = latest_git_commit_timestamp.split(' ')[1]  # Extract the date part
+        else:
+            latest_commit_date, latest_commit_hour = "Unknown"
+
         if os.path.exists(update_log_path):
             with open(update_log_path, "a") as log_file:
                 log_file.write(f"\n{mod_folder_name} was updated on {current_time}\n")
-                log_file.write(f"Last modification time: {mod_time}\n")
+                log_file.write(f"Latest commit date and hour: {latest_commit_date} {latest_commit_hour}\n")
                 log_file.write("------------------------------------------------------------------\n")
         else:
             with open(update_log_path, "w") as log_file:
                 log_file.write("Update History:\n")
                 log_file.write("##################################################################\n")
                 log_file.write(f"\n{mod_folder_name} was updated on {current_time}\n")
-                log_file.write(f"Last modification time: {mod_time}\n")
+                log_file.write(f"Latest commit date and hour: {latest_commit_date} {latest_commit_hour}\n")
                 log_file.write("------------------------------------------------------------------\n")
         print(f"Update for {mod_folder_name} logged successfully.")
     except Exception as e:
         print(f"Error logging update for {mod_folder_name}: {e}")
 
 DONT_INSTALL = False
+BLACKLIST_CONFIG_FILE = "blacklist.conf"
 
 if __name__ == "__main__":
     mods_folder_verifier()
@@ -163,7 +163,7 @@ if __name__ == "__main__":
     for mod_folder_name, git_url in mods_list.mods:
         git_update(mod_folder_name, git_url)
 
-    print("\nMade with <3 by github.com/BiP213")
+    print("\nMade with <3 by @bip213")
     input("Press Enter to exit...")
 
-# Made with <3 by github.com/BiP213! Enjoy! :D
+# Made with <3 by @bip213! Enjoy! :D
