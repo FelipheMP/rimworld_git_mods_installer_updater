@@ -1,4 +1,4 @@
-# rimworld_git_mods_installer_updater ![](https://img.shields.io/badge/License-GPLv3-blue.svg) [![python](https://img.shields.io/badge/Python-3.12-3776AB.svg?style=flat&logo=python&logoColor=white)](https://www.python.org) 
+# rimworld_git_mods_installer_updater ![](https://img.shields.io/badge/License-GPLv3-blue.svg) [![python](https://img.shields.io/badge/Python-3.10-3776AB.svg?style=flat&logo=python&logoColor=white)](https://www.python.org) 
 Python scripts for installing/updating RimWorld mods that have public git repositories.
 
 ## Installation  
