@@ -28,6 +28,8 @@ def mods_list_verifier():
 
             if is_file_empty(mods_py_path) or (mods_txt_mod_time > mods_py_mod_time):
                 print(f"\n{mods_txt_path} file identified!")
+                print(f"Sorting mods in {mods_txt_path} file alphabetically...")
+                mods_list_formater.sorting_modslist_txt(mods_txt_path)
                 print(f"Updating {mods_py_path} file...")
                 mods_list_formater.process_file(mods_txt_path, mods_py_path)
                 print(COMPLETION_MESSAGE)
@@ -40,6 +42,9 @@ def mods_list_verifier():
             file.write("JustPutItOverThere https://github.com/emipa606/JustPutItOverThere.git\n")
             file.write("OwlAnimalGear https://github.com/Owlchemist/animal-gear.git\n")
         print(f"{mods_txt_path} file created!")
+        print(f"Sorting mods in {mods_txt_path} file alphabetically...")
+        print(COMPLETION_MESSAGE)
+        mods_list_formater.sorting_modslist_txt(mods_txt_path)
         print("\nAdd mods by typing its name followed by its git repo url as is shown in the example file!")
         print("To remove it, well, delete its name and url line.")
         print("\nTip: You can create a file named blacklist.conf and add mod folder names in it.")
