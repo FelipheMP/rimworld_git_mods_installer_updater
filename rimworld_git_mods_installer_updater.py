@@ -1,3 +1,4 @@
+import sys
 import os
 import subprocess
 import shutil
@@ -165,7 +166,25 @@ if __name__ == "__main__":
     check_for_blacklist()
     blacklist_report()
 
-    for mod_folder_name, git_url in mods_list.mods:
+    # Default values
+    start_index = 0
+    count = len(mods_list.mods)
+
+    # Check if command-line arguments are provided
+    if len(sys.argv) > 1:
+        try:
+            start_index = int(sys.argv[1])
+            count = int(sys.argv[2])
+        except ValueError:
+            print("Invalid arguments. Using defaults.")
+    
+    # Calculate end index
+    end_index = min(start_index + count, len(mods_list.mods))
+    
+    # Slice the mods list
+    mods_to_update = mods_list.mods[start_index:end_index]
+
+    for mod_folder_name, git_url in mods_to_update:
         git_update(mod_folder_name, git_url)
 
     print("\nMade with <3 by @bip213")
