@@ -17,7 +17,7 @@ def is_file_empty(mods_py_path):
     return os.stat(mods_py_path).st_size == 0
 
 def mods_list_verifier():
-    COMPLETION_MESSAGE = "Done!"
+    completion_message = "Done!"
     mods_txt_path = "mods_list.txt"
     mods_py_path = "mods_list.py"
 
@@ -33,7 +33,7 @@ def mods_list_verifier():
                 mods_list_formater.sorting_modslist_txt(mods_txt_path)
                 print(f"Updating {mods_py_path} file...")
                 mods_list_formater.process_file(mods_txt_path, mods_py_path)
-                print(COMPLETION_MESSAGE)
+                print(completion_message)
                 exit(0)
 
     else:
@@ -44,7 +44,7 @@ def mods_list_verifier():
             file.write("OwlAnimalGear https://github.com/Owlchemist/animal-gear.git\n")
         print(f"{mods_txt_path} file created!")
         print(f"Sorting mods in {mods_txt_path} file alphabetically...")
-        print(COMPLETION_MESSAGE)
+        print(completion_message)
         mods_list_formater.sorting_modslist_txt(mods_txt_path)
         print("\nAdd mods by typing its name followed by its git repo url as is shown in the example file!")
         print("To remove it, well, delete its name and url line.")
@@ -53,7 +53,7 @@ def mods_list_verifier():
         print("Matching mod folder names will be ignored by the updater/installer!")
         print(f"\nUpdating {mods_py_path} file...")
         mods_list_formater.process_file(mods_txt_path, mods_py_path)
-        print(COMPLETION_MESSAGE)
+        print(completion_message)
         print("\nRun this script again to install/update the mods in the list.")
         exit(0)
 
@@ -162,7 +162,6 @@ BLACKLIST_CONFIG_FILE = "blacklist.conf"
 if __name__ == "__main__":
     mods_folder_verifier()
     mods_list_verifier()
-    dont_install()
     check_for_blacklist()
     blacklist_report()
 
@@ -180,6 +179,9 @@ if __name__ == "__main__":
     
     # Calculate end index
     end_index = min(start_index + count, len(mods_list.mods))
+
+    if (DONT_INSTALL == False):
+        dont_install()
     
     # Slice the mods list
     mods_to_update = mods_list.mods[start_index:end_index]
