@@ -88,8 +88,10 @@ def git_update(mod_folder_name, git_url):
                 if mod_folder_name == line.strip():
                     return
 
-    if os.path.exists(f"{mod_folder_name}-master"):
-        mod_folder_name += "-master"
+    # Checking if mod is already installed.
+    if os.path.exists(mod_folder_name) and not DONT_INSTALL:
+        print(f"\n{mod_folder_name} is already installed. Skipping...")
+        return
 
     if os.path.exists(mod_folder_name):
         print(f"\nUpdating {mod_folder_name}...")
@@ -112,7 +114,7 @@ def git_update(mod_folder_name, git_url):
                     git_remove_install(mod_folder_name, git_url)
     else:
         if not DONT_INSTALL:
-            input_str = input(f"\n/Mods/{mod_folder_name}/ folder not found. Would you like to install? [y/n]: ")
+            input_str = input(f"\n/Mods/{mod_folder_name}/ folder not found. Would you like to install it? [y/n]: ")
             if input_str.lower() == "y":
                 git_install(git_url)
 
@@ -174,13 +176,15 @@ if __name__ == "__main__":
         try:
             start_index = int(sys.argv[1])
             count = int(sys.argv[2])
+            DONT_INSTALL = True # Sets to update mods only. Not installing new ones.
         except ValueError:
             print("Invalid arguments. Using defaults.")
     
     # Calculate end index
     end_index = min(start_index + count, len(mods_list.mods))
 
-    if (DONT_INSTALL == False):
+    # Running the base script directly, it will ask if you want to install new mods.
+    if not DONT_INSTALL:
         dont_install()
     
     # Slice the mods list
