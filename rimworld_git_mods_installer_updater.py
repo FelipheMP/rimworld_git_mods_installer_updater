@@ -193,7 +193,5 @@ if __name__ == "__main__":
     for mod_folder_name, git_url in mods_to_update:
         git_update(mod_folder_name, git_url)
 
-    print("\nMade with <3 by @bip213")
+    print("\nMade with <3 by @FelipheMP")
     input("Press Enter to exit...")
-
-# Made with <3 by @bip213! Enjoy! :D
