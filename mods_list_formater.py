@@ -33,5 +33,3 @@ if __name__ == "__main__":
     input_file_path = 'mods_list.txt'
     output_file_path = 'mods_list.py'
     process_file(input_file_path, output_file_path)
-
-# Made with <3 by github.com/BiP213! Enjoy! :D
