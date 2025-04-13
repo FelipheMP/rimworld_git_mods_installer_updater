@@ -229,11 +229,10 @@ def git_update(mod_folder_name: str, git_url: str):
         return
 
     if mod_already_installed(mod_folder_name):
-        if not is_check_updates_only:
+        if is_check_updates_only:
+            update_repo(mod_folder_name, git_url)
+        else:
             print(f"\n{mod_folder_name} is already installed. Skipping...")
-        return
-
-    update_repo(mod_folder_name, git_url)
 
 
 def update_repo(mod_folder_name: str, git_url: str):
@@ -245,7 +244,7 @@ def update_repo(mod_folder_name: str, git_url: str):
         git_url (str): Git URL of the mod repository.
     """
     if os.path.exists(mod_folder_name):
-        print(f"Updating {mod_folder_name}...")
+        print(f"\nUpdating {mod_folder_name}...")
         os.chdir(mod_folder_name)
         try:
             if os.path.exists(".git"):
@@ -261,8 +260,6 @@ def update_repo(mod_folder_name: str, git_url: str):
                 handle_missing_git_folder(mod_folder_name, git_url)
         except subprocess.CalledProcessError as e:
             print(f"\nError updating {mod_folder_name}: {e}")
-        finally:
-            os.chdir("..")
     else:
         if not is_check_updates_only:
             ask_install_mod(mod_folder_name, git_url)
