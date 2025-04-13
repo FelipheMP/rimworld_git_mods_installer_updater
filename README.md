@@ -4,7 +4,7 @@ Python scripts for installing/updating RimWorld mods that have public git reposi
 
 ## Installation
 
-- Extract all `.py` files and `launch_mod_updater.bat` [Windows] or `gnome_launch_mod_updater.sh` or `konsole_launch_mod_updater.sh` [Linux] to `/RimWorld/Mods` folder
+- Extract all `.py` files, `config.json`  and`launch_mod_updater.bat` [Windows] or `gnome_launch_mod_updater.sh` or `konsole_launch_mod_updater.sh` [Linux] to `/RimWorld/Mods` folder
 
 ## Usage
 
