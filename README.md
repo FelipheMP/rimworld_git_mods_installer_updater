@@ -4,7 +4,7 @@ Python scripts for installing/updating RimWorld mods that have public git reposi
 
 ## Installation
 
-- Extract all `.py` files, `config.json`  and`launch_mod_updater.bat` [Windows] or `gnome_launch_mod_updater.sh` or `konsole_launch_mod_updater.sh` [Linux] to `/RimWorld/Mods` folder
+- Extract all `.py` files, `config.json` and `launch_mod_updater.bat` [Windows] or `gnome_launch_mod_updater.sh` or `konsole_launch_mod_updater.sh` [Linux] to `/RimWorld/Mods` folder
 
 ## Usage
 
@@ -12,13 +12,13 @@ Python scripts for installing/updating RimWorld mods that have public git reposi
 - Run:
 
 ```Bash
-python rimworld_git_mods_installer_updater.py
+python main.py
 ```
 
 > In some linux distributions you have to specify python version:
 
 ```Bash
-python3 rimworld_git_mods_installer_updater.py
+python3 main.py
 ```
 
 ## Updating using multiple instances

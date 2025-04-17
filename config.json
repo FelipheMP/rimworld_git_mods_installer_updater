@@ -1,6 +1,6 @@
 {
-    "blacklist_file": "blacklist.conf",
-    "mods_py_path": "mods_list.py",
-    "mods_txt_path": "mods_list.txt",
-    "update_log_path": "update_log.txt"
+    "blacklist": "blacklist.conf",
+    "mods_py": "mods_list.py",
+    "mods_txt": "mods_list.txt",
+    "update_log": "update_log.txt"
 }
