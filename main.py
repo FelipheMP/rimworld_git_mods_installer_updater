@@ -50,7 +50,7 @@ if __name__ == "__main__":
 
     for mod_folder_name, git_url in mods_to_update:
         git_operations.git_update(
-            mod_folder_name, git_url, BLACKLIST_FILE_PATH, is_check_updates_only
+            mod_folder_name, git_url, BLACKLIST_FILE_PATH, UPDATE_LOG_PATH, is_check_updates_only
         )
 
     print(f"\n{COMPLETION_MESSAGE}")

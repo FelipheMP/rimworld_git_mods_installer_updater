@@ -10,7 +10,8 @@ def git_update(
     mod_folder_name: str,
     git_url: str,
     blacklist_file_path: str,
-    is_check_updates_only: bool,
+    update_log_path: str,
+    is_check_updates_only: bool
 ):
     """
     Update a mod using git.
@@ -26,7 +27,7 @@ def git_update(
     if utils.mod_already_installed(mod_folder_name):
         if is_check_updates_only:
             update_repo(
-                mod_folder_name, git_url, blacklist_file_path, is_check_updates_only
+                mod_folder_name, git_url, update_log_path, is_check_updates_only
             )
         else:
             print(f"\n{mod_folder_name} is already installed. Skipping...")
